@@ -3,20 +3,28 @@
         <requirement type="package" version="2.1.0">hisat2</requirement>
     </requirements>
     <command detect_errors="exit_code"><![CDATA[
-        hisat2 -x chr22-index -1 "$input1" -2 "$input2" -S "$output1"
+        hisat2 -x "$index" -1 "$input1" -2 "$input2" -S "$output1" &> "$output2"
     ]]></command>
     <inputs>
-        <param type="data" name="input1" format="gz" />
-        <param type="data" name="input2" format="gz" />
+        <param type="data" name="input1" format="fastqsanger.gz" />
+        <param type="data" name="input2" format="fastqsanger.gz" />
+  	<param name="index" type="select" label="Select a reference genome">
+	 <options from_data_table="hisat2_indexes">
+	  <filter type="sort_by" column="2" />
+          <validator type="no_options" message="No indices are available for input dataset" />
+         </options>
+        </param>
     </inputs>
     <outputs>
         <data name="output1" format="sam" />
+        <data name="output2" format="text" />
     </outputs>
     <tests>
         <test>
             <param name="input1" value="hcc1395_tumor_rep1_r1.fastq.gz"/>
             <param name="input2" value="hcc1395_tumor_rep1_r2.fastq.gz"/>
-            <output name="output1" file="hcc1395_tumor_rep1.sam"/>
+            <output name="output1" file="tmp.sam"/>
+	    <output name="output2" file="tmp.log"/>
         </test>
     </tests>
     <help><![CDATA[

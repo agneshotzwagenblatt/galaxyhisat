@@ -1,0 +1,6 @@
+<tables>
+   <table name="hisat2_indexes" comment_char="#">
+   <columns>value,dbkey,name,path</columns>
+   <file path="tool-data/hisat2_indexes.loc"/>
+   </table>
+</tables>
